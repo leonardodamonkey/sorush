@@ -1,0 +1,918 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101326">
+  <title>GameStyle | سبک بازی تو چیه؟</title>
+
+  <style>
+    :root {
+      --bg: #101326;
+      --panel: #191d36;
+      --panel-light: #222743;
+      --text: #f4f5ff;
+      --muted: #a4aac7;
+      --purple: #a78bfa;
+      --blue: #60a5fa;
+      --green: #34d399;
+      --orange: #fbbf24;
+      --border: #343958;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top right, #292052 0, transparent 42%),
+        radial-gradient(ellipse at bottom left, #102f42 0, transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: Tahoma, Arial, sans-serif;
+      line-height: 1.9;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    button:focus-visible {
+      outline: 3px solid white;
+      outline-offset: 4px;
+    }
+
+    .container {
+      width: min(760px, 92%);
+      margin: 0 auto;
+      padding: 28px 0 45px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--purple);
+    }
+
+    .tag {
+      color: var(--green);
+      border: 1px solid #286d61;
+      background: #15372f;
+      padding: 4px 11px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin: 20px 0 28px;
+    }
+
+    .hero-icon {
+      font-size: 3.5rem;
+      margin-bottom: 2px;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    h1 span {
+      color: var(--purple);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 530px;
+      margin: 10px auto 0;
+      font-size: 0.95rem;
+    }
+
+    .panel {
+      background: rgba(25, 29, 54, 0.96);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: clamp(18px, 4vw, 30px);
+      box-shadow: 0 18px 60px #00000024;
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+    }
+
+    .progress-track {
+      height: 7px;
+      background: #303550;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      border-radius: inherit;
+      transition: width 0.25s ease;
+    }
+
+    h2 {
+      font-size: clamp(1.15rem, 4vw, 1.45rem);
+      line-height: 1.8;
+      margin: 0 0 20px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      width: 100%;
+      padding: 14px;
+      text-align: right;
+      color: var(--text);
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s,
+                  transform 0.2s;
+    }
+
+    .answer:hover {
+      border-color: var(--purple);
+      transform: translateY(-2px);
+    }
+
+    .answer.selected {
+      border-color: var(--purple);
+      background: #302950;
+      box-shadow: inset -3px 0 var(--purple);
+    }
+
+    .letter {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #343957;
+      color: #d9d0ff;
+      font-weight: bold;
+    }
+
+    .answer.selected .letter {
+      background: var(--purple);
+      color: #17132a;
+    }
+
+    .answer-text {
+      font-size: 0.92rem;
+    }
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--purple);
+      color: #17132a;
+    }
+
+    .btn-secondary {
+      background: #303550;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin: 20px 0 0;
+    }
+
+    /* صفحه نتیجه */
+
+    .result-heading {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .result-icon {
+      font-size: 3.5rem;
+    }
+
+    .result-heading h2 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .result-heading p {
+      color: var(--muted);
+      margin: 6px 0 0;
+    }
+
+    .result-card {
+      padding: 23px;
+      border-radius: 18px;
+      border: 1px solid #554583;
+      background: linear-gradient(135deg, #292448, #1d2940);
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .result-card .small-title {
+      color: #d0c2ff;
+      font-size: 0.85rem;
+    }
+
+    .result-card h3 {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      margin: 4px 0 8px;
+    }
+
+    .result-card p {
+      color: #d5d9ed;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      margin: 0 0 5px;
+    }
+
+    .section-description {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin: 0 0 20px;
+    }
+
+    .bar-row {
+      margin-bottom: 20px;
+    }
+
+    .bar-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 7px;
+      font-size: 0.9rem;
+    }
+
+    .bar-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar-percent {
+      font-weight: bold;
+      direction: ltr;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 12px;
+      background: #303550;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      transition: width 0.7s ease;
+    }
+
+    .competition { background: var(--purple); }
+    .cooperation { background: var(--green); }
+    .collection { background: var(--orange); }
+    .exploration { background: var(--blue); }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .legend-item {
+      padding: 11px;
+      background: #20243e;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.8rem;
+      color: #dfe2f5;
+    }
+
+    .legend-item strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .legend-item span {
+      color: var(--muted);
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .result-actions .btn {
+      flex: 1;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    footer {
+      text-align: center;
+      color: #858ba9;
+      font-size: 0.75rem;
+      margin-top: 25px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: 94%;
+        padding-top: 18px;
+      }
+
+      header {
+        margin-bottom: 18px;
+      }
+
+      .hero {
+        margin: 10px 0 20px;
+      }
+
+      .hero-icon {
+        font-size: 2.8rem;
+      }
+
+      .panel {
+        border-radius: 17px;
+      }
+
+      .answer {
+        padding: 11px;
+        gap: 10px;
+      }
+
+      .answer-text {
+        font-size: 0.85rem;
+      }
+
+      .navigation .btn {
+        padding: 10px 15px;
+      }
+
+      .legend {
+        grid-template-columns: 1fr;
+      }
+
+      .result-actions {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <header>
+      <div class="logo">GAME<span>STYLE</span></div>
+      <div class="tag">آزمون سرگرمی 🎮</div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-icon" aria-hidden="true">🕹️</div>
+      <h1>سبک بازی <span>تو چیه؟</span></h1>
+      <p class="subtitle">
+        از رقابت و رکوردشکنی تا کشف دنیاهای تازه!
+        به ۱۰ سؤال جواب بده تا سبک بازی خودت را پیدا کنی.
+      </p>
+    </section>
+
+    <section id="quiz" class="panel" aria-label="آزمون سبک بازی">
+      <div class="topline">
+        <span id="questionNumber">سؤال ۱ از ۱۰</span>
+        <span id="answeredCount">۰ پاسخ ثبت شده</span>
+      </div>
+
+      <div
+        class="progress-track"
+        role="progressbar"
+        aria-label="پیشرفت آزمون"
+        aria-valuemin="0"
+        aria-valuemax="10"
+        aria-valuenow="0"
+        id="progressBar"
+      >
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+
+      <h2 id="questionText"></h2>
+      <div id="answers" class="answers"></div>
+
+      <div class="navigation">
+        <button id="backBtn" class="btn btn-secondary" type="button">
+          قبلی
+        </button>
+        <button id="nextBtn" class="btn btn-primary" type="button" disabled>
+          سؤال بعدی ←
+        </button>
+      </div>
+
+      <p class="note">پاسخ درست یا غلطی وجود ندارد؛ چیزی را انتخاب کن که واقعاً دوست داری.</p>
+    </section>
+
+    <section id="result" class="panel hidden" aria-label="نتیجه آزمون">
+      <div class="result-heading">
+        <div class="result-icon" aria-hidden="true">🏆</div>
+        <h2>نتیجه مأموریت تو!</h2>
+        <p>این نمودار نشان می‌دهد کدام سبک‌ها در پاسخ‌هایت پررنگ‌تر بوده‌اند.</p>
+      </div>
+
+      <div class="result-card" aria-live="polite">
+        <div class="small-title">سبک بازی تو</div>
+        <h3 id="resultName"></h3>
+        <p id="resultDescription"></p>
+      </div>
+
+      <h3 class="section-title">نمودار سبک‌های تو</h3>
+      <p class="section-description">
+        درصدها سهم هر سبک از مجموع امتیازهای تو هستند و در مجموع ۱۰۰٪ می‌شوند.
+      </p>
+
+      <div id="chart" aria-label="نمودار میله‌ای نتایج"></div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <strong>🟣 رقابت</strong>
+          <span>بردن، رکورد زدن و پیشرفت</span>
+        </div>
+        <div class="legend-item">
+          <strong>🟢 همکاری</strong>
+          <span>تیمی بازی کردن و کمک به دوستان</span>
+        </div>
+        <div class="legend-item">
+          <strong>🟠 جمع‌آوری</strong>
+          <span>آیتم‌ها، پاداش‌ها و کامل کردن مجموعه</span>
+        </div>
+        <div class="legend-item">
+          <strong>🔵 اکتشاف</strong>
+          <span>کشف محیط و انجام مأموریت‌ها</span>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button id="restartBtn" class="btn btn-primary" type="button">
+          ↻ شروع دوباره
+        </button>
+      </div>
+
+      <p class="note">
+        این آزمون فقط برای سرگرمی است و شخصیت واقعی تو را به‌صورت علمی اندازه‌گیری نمی‌کند.
+      </p>
+    </section>
+
+    <footer>
+      ساخته‌شده با HTML، CSS و JavaScript | بدون ثبت‌نام و ذخیره اطلاعات
+    </footer>
+  </main>
+
+  <script>
+    // ترتیب امتیازها:
+    // [رقابت، همکاری، جمع‌آوری، اکتشاف]
+    // مجموع امتیاز هر گزینه همیشه ۲ است.
+
+    const styles = [
+      {
+        key: "competition",
+        name: "رقابت",
+        emoji: "🏆",
+        color: "competition"
+      },
+      {
+        key: "cooperation",
+        name: "همکاری",
+        emoji: "🤝",
+        color: "cooperation"
+      },
+      {
+        key: "collection",
+        name: "جمع‌آوری",
+        emoji: "💎",
+        color: "collection"
+      },
+      {
+        key: "exploration",
+        name: "اکتشاف و مأموریت",
+        emoji: "🧭",
+        color: "exploration"
+      }
+    ];
+
+    const questions = [
+      {
+        text: "وقتی وارد یک مسابقه می‌شوی، کدام بخش برایت جذاب‌تر است؟",
+        answers: [
+          { text: "از بقیه بهتر عمل کنم و رکورد بزنم.", score: [2, 0, 0, 0] },
+          { text: "با هم‌تیمی‌ها هماهنگ شوم و به گروه کمک کنم.", score: [0, 2, 0, 0] },
+          { text: "آیتم‌ها و پاداش‌های بیشتری جمع کنم.", score: [0, 0, 2, 0] },
+          { text: "بخش‌های جدید را کشف کنم و مأموریت‌ها را پیش ببرم.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "در یک بازی جهان‌باز، دوست داری اول چه‌کار کنی؟",
+        answers: [
+          { text: "قوی‌تر شوم و دشمنان سخت را شکست بدهم.", score: [2, 0, 0, 0] },
+          { text: "با دوستانم گروه تشکیل بدهم و با هم جلو برویم.", score: [0, 2, 0, 0] },
+          { text: "وسایل مخفی، سکه‌ها و منابع را پیدا کنم.", score: [0, 0, 2, 0] },
+          { text: "به مناطق ناشناخته بروم و رازهای نقشه را پیدا کنم.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "وقتی یک مرحله را تمام می‌کنی، کدام پاداش بیشتر خوشحالت می‌کند؟",
+        answers: [
+          { text: "ثبت بهترین زمان یا گرفتن رتبه بالاتر.", score: [2, 0, 0, 0] },
+          { text: "اینکه همه اعضای تیم موفق شده باشند.", score: [0, 2, 0, 0] },
+          { text: "باز شدن یک آیتم کمیاب یا کامل شدن مجموعه.", score: [0, 0, 2, 0] },
+          { text: "فهمیدن داستان مرحله و کشف یک راز تازه.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "اگر بازی خیلی سخت شود، معمولاً چه‌کار می‌کنی؟",
+        answers: [
+          { text: "تمرین می‌کنم تا بالاخره بهترین نتیجه را بگیرم.", score: [2, 0, 0, 0] },
+          { text: "از دوستانم کمک می‌گیرم یا به آن‌ها کمک می‌کنم.", score: [0, 2, 0, 0] },
+          { text: "دنبال تجهیزات و آیتم‌هایی می‌گردم که کار را آسان کنند.", score: [0, 0, 2, 0] },
+          { text: "راه‌ها و روش‌های دیگری را امتحان می‌کنم.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "کدام نقش در یک بازی گروهی را بیشتر دوست داری؟",
+        answers: [
+          { text: "بازیکنی که برای پیروزی و امتیاز بیشتر تلاش می‌کند.", score: [2, 0, 0, 0] },
+          { text: "بازیکنی که از تیم محافظت می‌کند و پشتیبان است.", score: [0, 2, 0, 0] },
+          { text: "بازیکنی که منابع و تجهیزات تیم را فراهم می‌کند.", score: [0, 1, 1, 0] },
+          { text: "بازیکنی که مسیرهای تازه را پیدا می‌کند.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "اگر یک منطقه مخفی در بازی پیدا کنی، چه چیزی هیجان‌زده‌ات می‌کند؟",
+        answers: [
+          { text: "وجود یک چالش سخت برای اثبات مهارتم.", score: [2, 0, 0, 0] },
+          { text: "اینکه آنجا را به دوستانم نشان بدهم.", score: [0, 1, 0, 1] },
+          { text: "گنج‌ها و آیتم‌های کمیاب داخل آن.", score: [0, 0, 2, 0] },
+          { text: "اینکه بفهمم چرا این مکان مخفی شده است.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "در یک بازی مسابقه‌ای، کدام هدف را انتخاب می‌کنی؟",
+        answers: [
+          { text: "رسیدن به رتبه اول و بهتر کردن زمانم.", score: [2, 0, 0, 0] },
+          { text: "مسابقه تیمی و هماهنگی با دوستان.", score: [0, 2, 0, 0] },
+          { text: "پیدا کردن مسیرهای دارای سکه و جایزه بیشتر.", score: [0, 0, 2, 0] },
+          { text: "امتحان کردن مسیرهای فرعی و میان‌برهای تازه.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "کدام اتفاق باعث می‌شود مدت بیشتری در بازی بمانی؟",
+        answers: [
+          { text: "تلاش برای شکستن رکورد شخصی یا جهانی.", score: [2, 0, 0, 0] },
+          { text: "بازی کردن با دوستان و انجام هدفی مشترک.", score: [0, 2, 0, 0] },
+          { text: "تکمیل مجموعه‌ها و باز کردن همه پاداش‌ها.", score: [0, 0, 2, 0] },
+          { text: "رسیدن به مناطق تازه و کشف اتفاقات غیرمنتظره.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "اگر یک مأموریت چند روش برای انجام دادن داشته باشد، چه می‌کنی؟",
+        answers: [
+          { text: "سریع‌ترین یا سخت‌ترین روش را برای نتیجه بهتر انتخاب می‌کنم.", score: [2, 0, 0, 0] },
+          { text: "روشی را انتخاب می‌کنم که برای اعضای تیم بهتر باشد.", score: [0, 2, 0, 0] },
+          { text: "روشی را می‌روم که بیشترین پاداش را داشته باشد.", score: [0, 0, 2, 0] },
+          { text: "روش‌های مختلف را امتحان می‌کنم تا چیز تازه‌ای یاد بگیرم.", score: [0, 0, 0, 2] }
+        ]
+      },
+      {
+        text: "دوست داری در پایان یک بازی چه احساسی داشته باشی؟",
+        answers: [
+          { text: "اینکه مهارتم بیشتر شده و از قبل بهترم.", score: [2, 0, 0, 0] },
+          { text: "اینکه با دوستانم یک تجربه عالی داشته‌ام.", score: [0, 2, 0, 0] },
+          { text: "اینکه مجموعه‌ام کامل‌تر شده و چیزهای زیادی به دست آورده‌ام.", score: [0, 0, 2, 0] },
+          { text: "اینکه دنیایی تازه را شناخته‌ام و ماجراجویی کرده‌ام.", score: [0, 0, 0, 2] }
+        ]
+      }
+    ];
+
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const questionText = document.getElementById("questionText");
+    const answersBox = document.getElementById("answers");
+    const questionNumber = document.getElementById("questionNumber");
+    const answeredCount = document.getElementById("answeredCount");
+    const progressFill = document.getElementById("progressFill");
+    const progressBar = document.getElementById("progressBar");
+    const backBtn = document.getElementById("backBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let currentQuestion = 0;
+    let selections = Array(questions.length).fill(null);
+
+    const faNumbers = new Intl.NumberFormat("fa-IR");
+
+    function renderQuestion() {
+      const question = questions[currentQuestion];
+      const selected = selections[currentQuestion];
+      const answered = selections.filter(value => value !== null).length;
+      const progress = (answered / questions.length) * 100;
+
+      questionNumber.textContent =
+        `سؤال ${faNumbers.format(currentQuestion + 1)} از ${faNumbers.format(questions.length)}`;
+
+      answeredCount.textContent =
+        `${faNumbers.format(answered)} پاسخ ثبت شده`;
+
+      progressFill.style.width = `${progress}%`;
+      progressBar.setAttribute("aria-valuenow", answered);
+
+      questionText.textContent = question.text;
+      answersBox.replaceChildren();
+
+      question.answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "answer";
+
+        if (selected === index) {
+          button.classList.add("selected");
+        }
+
+        button.setAttribute("aria-pressed", String(selected === index));
+
+        const letter = document.createElement("span");
+        letter.className = "letter";
+        letter.textContent = ["الف", "ب", "ج", "د"][index];
+
+        const text = document.createElement("span");
+        text.className = "answer-text";
+        text.textContent = answer.text;
+
+        button.append(letter, text);
+
+        button.addEventListener("click", () => {
+          selections[currentQuestion] = index;
+          renderQuestion();
+        });
+
+        answersBox.appendChild(button);
+      });
+
+      backBtn.disabled = currentQuestion === 0;
+
+      nextBtn.disabled = selected === null;
+      nextBtn.textContent =
+        currentQuestion === questions.length - 1
+          ? "مشاهده نتیجه 🎯"
+          : "سؤال بعدی ←";
+    }
+
+    backBtn.addEventListener("click", () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (selections[currentQuestion] === null) return;
+
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    });
+
+    function calculateScores() {
+      const scores = [0, 0, 0, 0];
+
+      selections.forEach((answerIndex, questionIndex) => {
+        if (answerIndex === null) return;
+
+        const points =
+          questions[questionIndex].answers[answerIndex].score;
+
+        points.forEach((point, styleIndex) => {
+          scores[styleIndex] += point;
+        });
+      });
+
+      return scores;
+    }
+
+    function describeResult(scores) {
+      const highest = Math.max(...scores);
+      const leaders = styles.filter(
+        (_, index) => scores[index] === highest
+      );
+
+      if (leaders.length === 1) {
+        const index = scores.indexOf(highest);
+
+        const descriptions = [
+          "از چالش، پیشرفت و شکستن رکوردها انرژی می‌گیری. برای تو بهتر شدن و رسیدن به نتیجه عالی بخش مهمی از لذت بازی است.",
+          "از تجربه‌های گروهی لذت می‌بری. هماهنگی، کمک به دوستان و رسیدن به هدف مشترک می‌تواند بازی را برایت جذاب‌تر کند.",
+          "پیدا کردن آیتم‌های کمیاب و کامل کردن مجموعه‌ها برایت هیجان‌انگیز است. جزئیات و پاداش‌های کوچک هم می‌توانند ارزش زیادی داشته باشند.",
+          "کنجکاوی تو را به سمت مکان‌های ناشناخته و مأموریت‌های تازه می‌برد. دوست داری راه‌های مختلف را امتحان کنی و چیزهای جدید کشف کنی."
+        ];
+
+        const names = [
+          "رقابت‌جوی رکوردشکن",
+          "هم‌تیمی وفادار",
+          "شکارچی گنج",
+          "کاوشگر کنجکاو"
+        ];
+
+        return {
+          name: names[index],
+          description: descriptions[index]
+        };
+      }
+
+      const pairNames = {
+        "0-1": "رقابت‌جوی تیمی",
+        "0-2": "شکارچی رکورد و گنج",
+        "0-3": "رقابت‌جوی ماجراجو",
+        "1-2": "هم‌تیمی گنج‌یاب",
+        "1-3": "کاوشگر گروهی",
+        "2-3": "کاوشگر گنج"
+      };
+
+      const indices = leaders.map(style => styles.indexOf(style));
+      const pairKey = indices.join("-");
+
+      if (leaders.length === 2) {
+        return {
+          name: pairNames[pairKey],
+          description:
+            `دو سبک ${leaders[0].name} و ${leaders[1].name} در پاسخ‌هایت امتیاز برابر دارند. احتمالاً از ترکیبی از این دو نوع تجربه لذت می‌بری.`
+        };
+      }
+
+      if (leaders.length === 3) {
+        return {
+          name: "بازیکن چندسبکی",
+          description:
+            `سبک‌های ${leaders.map(item => item.name).join("، ")} امتیاز برابر دارند. علایق تو فقط به یک نوع بازی محدود نیست.`
+        };
+      }
+
+      return {
+        name: "بازیکن همه‌فن‌حریف",
+        description:
+          "هر چهار سبک امتیاز برابر دارند! پاسخ‌هایت نشان می‌دهند که از تجربه‌های متنوع بازی لذت می‌بری."
+      };
+    }
+
+    function showResult() {
+      if (selections.some(answer => answer === null)) return;
+
+      const scores = calculateScores();
+      const total = scores.reduce((sum, score) => sum + score, 0);
+      const resultInfo = describeResult(scores);
+
+      document.getElementById("resultName").textContent = resultInfo.name;
+      document.getElementById("resultDescription").textContent =
+        resultInfo.description;
+
+      const chart = document.getElementById("chart");
+      chart.replaceChildren();
+
+      styles.forEach((style, index) => {
+        const percentage = total === 0
+          ? 0
+          : Math.round((scores[index] / total) * 100);
+
+        const row = document.createElement("div");
+        row.className = "bar-row";
+
+        const info = document.createElement("div");
+        info.className = "bar-info";
+
+        const name = document.createElement("span");
+        name.className = "bar-name";
+        name.textContent = `${style.emoji} ${style.name}`;
+
+        const percent = document.createElement("span");
+        percent.className = "bar-percent";
+        percent.textContent = `${faNumbers.format(percentage)}٪`;
+
+        info.append(name, percent);
+
+        const track = document.createElement("div");
+        track.className = "bar-track";
+        track.setAttribute("role", "progressbar");
+        track.setAttribute("aria-label", style.name);
+        track.setAttribute("aria-valuemin", "0");
+        track.setAttribute("aria-valuemax", "100");
+        track.setAttribute("aria-valuenow", percentage);
+
+        const fill = document.createElement("div");
+        fill.className = `bar-fill ${style.color}`;
+        fill.style.width = `${percentage}%`;
+
+        track.appendChild(fill);
+        row.append(info, track);
+        chart.appendChild(row);
+      });
+
+      quiz.classList.add("hidden");
+      result.classList.remove("hidden");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.getElementById("restartBtn").addEventListener("click", () => {
+      currentQuestion = 0;
+      selections = Array(questions.length).fill(null);
+
+      result.classList.add("hidden");
+      quiz.classList.remove("hidden");
+
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // نمایش سؤال اول
+    renderQuestion();
+  </script>
+</body>
+</html>
